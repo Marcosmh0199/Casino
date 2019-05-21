@@ -9,7 +9,8 @@ public class Item{
   private ItemTypes itemType;
   private Price price;
   private int probability;
-  Item(int probability){
+  
+  public Item(int probability){
     setProbability(probability);
   }
   
