@@ -5,9 +5,8 @@ package serverlogic;
  * @author Marcos
  * @version 19.5.20
  */
-public class Rule {
+public abstract class Rule {
   private int aparitionQuantity;
-  
   public Rule(){
     
   }

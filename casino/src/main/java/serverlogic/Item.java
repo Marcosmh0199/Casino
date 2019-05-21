@@ -34,4 +34,8 @@ public class Item{
     this.probability = probability;
   }
   
+  public int getProbability() {
+    return this.probability;
+  }
+  
 }
