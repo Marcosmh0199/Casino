@@ -1,34 +1,37 @@
 package serverlogic;
 
 public class BetRules {
-  private PercentageRule linuxRule;
-  private PercentageRule macRule;
-  private PercentageRule windowsRule;
+  private PercentageRule treeItems;
+  private PercentageRule fourItems;
+  private PercentageRule fiveItems;
   
   public BetRules(){
   }
 
-  public PercentageRule getLinuxRule() {
-    return linuxRule;
+  public PercentageRule getTreeItems() {
+    return treeItems;
   }
 
-  public void setLinuxRule(PercentageRule linuxRule) {
-    this.linuxRule = linuxRule;
+  public void setTreeItems(PercentageRule treeItems) {
+    this.treeItems = treeItems;
   }
 
-  public PercentageRule getMacRule() {
-    return macRule;
+  public PercentageRule getFourItems() {
+    return fourItems;
   }
 
-  public void setMacRule(PercentageRule macRule) {
-    this.macRule = macRule;
+  public void setFourItems(PercentageRule fourItems) {
+    this.fourItems = fourItems;
   }
 
-  public PercentageRule getWindowsRule() {
-    return windowsRule;
+  public PercentageRule getFiveItems() {
+    return fiveItems;
   }
 
-  public void setWindowsRule(PercentageRule windowsRule) {
-    this.windowsRule = windowsRule;
-  } 
+  public void setFiveItems(PercentageRule fiveItems) {
+    this.fiveItems = fiveItems;
+  }
+  
+  
+  
 }

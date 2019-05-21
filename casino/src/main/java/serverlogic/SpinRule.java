@@ -12,7 +12,7 @@ public class SpinRule extends Rule {
   public SpinRule(){
   }
   
-  private void setFreeSpin(int freeSpin) {
+  public void setFreeSpin(int freeSpin) {
     this.freeSpin = freeSpin;
   }
   
