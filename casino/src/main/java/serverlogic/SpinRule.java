@@ -10,7 +10,6 @@ public class SpinRule extends Rule {
   private int freeSpin;
   
   public SpinRule(){
-    
   }
   
   private void setFreeSpin(int freeSpin) {

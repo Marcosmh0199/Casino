@@ -5,10 +5,18 @@ package serverlogic;
  * @author Marcos
  * @version 19.5.20
  */
-public class PercentageRule extends Rule {
-  double percentage;
+public final class PercentageRule extends Rule {
+  private double percentage;
   
   public PercentageRule() {
-    // TODO Auto-generated constructor stub
   }
+
+  public double getPercentage() {
+    return percentage;
+  }
+
+  public void setPercentage(double percentage) {
+    this.percentage = percentage;
+  }
+  
 }

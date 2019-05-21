@@ -12,19 +12,19 @@ import com.google.gson.Gson;
 public class SerializeItem {
   final String DIR = System.getProperty("user.home");
 
-  SerializeItem(){
+  public SerializeItem(){
     if(!(Files.exists(Paths.get(DIR+"\\ItemsJson")))){
       File dir = new File(DIR+"\\ItemsJson");
       dir.mkdir();
     }
   }
   
-  void convertToJson(Item item) {
+  public void convertToJson(Item item) {
     Gson gson = new Gson();
     String json = gson.toJson(item);
     FileWriter writer;
     try {
-      writer = new FileWriter(DIR+"\\ItemsJson\\"+item.getItemType().name()+"json");
+      writer = new FileWriter(DIR+"\\ItemsJson\\"+item.getItemType().name()+".json");
       writer.write(json);
       writer.close();
     } catch (IOException e) {
@@ -32,7 +32,7 @@ public class SerializeItem {
     }
   }
   
-  Item convertFromJson(String name) {
+  public Item convertFromJson(String name) {
     Gson gson = new Gson();
     try {
       BufferedReader br = new BufferedReader(new FileReader(DIR+"\\ItemsJson\\"+name+".json"));
