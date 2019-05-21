@@ -5,13 +5,15 @@ public class MarkMain {
   public static void main(String[] args) {
     Item item = new Item(3);
     
-    item.setItemType(ItemTypes.GITKRAKEN);
+    item.setItemType(ItemTypes.BITCOIN);
     item.setPrice(Price.SPINE);
-    SerializeItem serializer = new SerializeItem();
-    serializer.convertToJson(item);
-    Item item2 = serializer.convertFromJson(ItemTypes.GITKRAKEN.name());
-    System.out.println(item2.getItemType().name()+item2.getProbability());
     
+    SerializeObject serializer = new SerializeObject();
+    
+    serializer.convertToJson(item, item.getItemType().name(), "Items");
+    Item item2 = new Item();
+    item2 = (Item) serializer.convertFromJson("Items", item.getItemType().name(),item2.getClass());
+    System.out.println(item2.getItemType().name());
 
   }
 }
