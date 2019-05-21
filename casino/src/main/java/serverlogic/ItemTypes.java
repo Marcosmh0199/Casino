@@ -1,0 +1,6 @@
+package serverlogic;
+
+public enum ItemTypes {
+  ECLIPSE, NETBEANS, BLUEJ, XCODE, ORACLE, JCREATOR, LINUX, MAC, WINDOWS, GITKRAKEN, 
+  BITCOIN, JAVA
+}
