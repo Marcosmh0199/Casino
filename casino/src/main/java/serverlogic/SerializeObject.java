@@ -17,6 +17,14 @@ public class SerializeObject {
       File dir = new File(DIR+"\\JSONFiles");
       dir.mkdir();
     }
+    if(!(Files.exists(Paths.get(DIR+"\\JSONFiles\\Items")))){
+      File dir = new File(DIR+"\\JSONFiles\\Items");
+      dir.mkdir();
+    }
+    if(!(Files.exists(Paths.get(DIR+"\\JSONFiles\\Rules")))){
+      File dir = new File(DIR+"\\JSONFiles \\Rules");
+      dir.mkdir();
+    }
   }
   
   public void convertToJson(Object item, String name, String folder) {
