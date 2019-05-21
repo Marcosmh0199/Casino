@@ -14,6 +14,10 @@ public class Item{
     setProbability(probability);
   }
   
+  public Item() {
+    
+  }
+  
   public void setItemType(ItemTypes itemType) {
     this.itemType = itemType;
   }
