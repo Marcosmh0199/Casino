@@ -1,4 +1,8 @@
 package serverlogic;
+
+import java.util.Date;
+import java.util.Calendar;
+
 /**
  * Clase para crear objetos tipo jugador
  * @author Marcos
@@ -8,6 +12,7 @@ public class Player {
   private String nickName;
   private String password;
   private int credit;
+  private Date lastLogin;
   
   /**
    * Constructor 
@@ -18,6 +23,7 @@ public class Player {
     setNickName(nickName);
     setPassword(password);
     setCredit(10000);
+    setLastLogin();
   }
   
   public String getNickName() {
@@ -43,6 +49,15 @@ public class Player {
   public void setCredit(int credit) {
     this.credit = credit;
   }
+  public Date getLastLogin() {
+    return lastLogin;
+  }
+
+  public void setLastLogin() {
+    Calendar calendar = Calendar.getInstance();
+    lastLogin = calendar.getTime();
+  }
+
   /**
    * Metodo para cambiar la forma en la que se imprime un jugador
    * @return Nick del jugador
