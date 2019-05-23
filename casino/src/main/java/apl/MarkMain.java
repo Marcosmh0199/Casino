@@ -74,7 +74,7 @@ public class MarkMain {
     serializer.convertToJson(jackpotRules, "JACKPOTRULES", "Rules");
     
     SpinRule spinRule = new SpinRule();
-    SpinesRule spinesRule = new SpinesRule();
+    SpinesRules spinesRule = new SpinesRules();
     spinRule.setAparitionQuantity(3);
     spinRule.setFreeSpin(12);
     spinesRule.setThreeItems(spinRule);
