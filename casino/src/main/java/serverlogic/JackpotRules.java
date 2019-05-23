@@ -1,5 +1,10 @@
 package serverlogic;
 
+/**
+ * Clase que contiene las reglas referente al jackpot
+ * @author Marcos
+ * @version v19.20.05
+ */
 public class JackpotRules {
   private PercentageRule linuxRule;
   private PercentageRule macRule;

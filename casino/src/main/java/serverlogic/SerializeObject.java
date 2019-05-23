@@ -9,10 +9,27 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import com.google.gson.Gson;
 
+/**
+ * Clase para crear cualquier objeto a .JSON y viceversa
+ * @author Marcos
+ * @version v19.20.05
+ *
+ */
 public class SerializeObject {
   final String DIR = System.getProperty("user.home");
 
+  /**
+   * Constructor 
+   * 
+   */
   public SerializeObject(){
+    checkDirectories();
+  }
+  
+  /**
+   * Método que verifica si existen los directorios necesarios para almacenar los archivos que creara el programa
+   */
+  private void checkDirectories() {
     if(!(Files.exists(Paths.get(DIR+"\\JSONFiles")))){
       File dir = new File(DIR+"\\JSONFiles");
       dir.mkdir();
@@ -27,6 +44,12 @@ public class SerializeObject {
     }
   }
   
+  /**
+   * Metodo para convertir un objeto a .json
+   * @param item objeto que sera convertido a .json
+   * @param name Nombre con el que sera guardado el objeto
+   * @param folder carpeta donde se guardara el objeto
+   */
   public void convertToJson(Object item, String name, String folder) {
     Gson gson = new Gson();
     String json = gson.toJson(item);
@@ -40,6 +63,13 @@ public class SerializeObject {
     }
   }
   
+  /**
+   * Metodo para cargar un .json y convertirlo a un objeto segun convenga
+   * @param folder Carpeta donde se ubica el .json
+   * @param name nombre del archivo que sera convetido
+   * @param cls Clase a la que se adecuara el objeto
+   * @return null si el archivo buscado no existe, sino retorna el objeto del tipo especificado
+   */
   public Object convertFromJson(String folder, String name, Class<?> cls) {
     Gson gson = new Gson();
     FileReader file;

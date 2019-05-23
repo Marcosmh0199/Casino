@@ -1,5 +1,11 @@
 package serverlogic;
 
+/**
+ * Clase que contiene las reglas de apuesta
+ * @author Marcos
+ * @version v19.20.05
+ *
+ */
 public class BetRules {
   private PercentageRule treeItems;
   private PercentageRule fourItems;
@@ -30,8 +36,5 @@ public class BetRules {
 
   public void setFiveItems(PercentageRule fiveItems) {
     this.fiveItems = fiveItems;
-  }
-  
-  
-  
+  }  
 }
