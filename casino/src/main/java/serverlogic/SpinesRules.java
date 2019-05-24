@@ -1,11 +1,11 @@
 package serverlogic;
 
-public class SpinesRule {
+public class SpinesRules {
   private SpinRule threeItems;
   private SpinRule fourItems;
   private SpinRule fiveItems;
   
-  public SpinesRule() {
+  public SpinesRules() {
   }
 
   public SpinRule getThreeItems() {

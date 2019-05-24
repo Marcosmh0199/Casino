@@ -1,6 +1,7 @@
 package apl;
 import serverlogic.*;
 
+
 public class MarkMain {
   public static void main(String[] args) {
     /**
@@ -45,7 +46,8 @@ public class MarkMain {
     
     item.setItemType(ItemTypes.JAVA);
     serializer.convertToJson(item, item.getItemType().name(), "Items");
-    **/
+
+   
     BetRules betRules = new BetRules();
     PercentageRule pRule = new PercentageRule();
     SerializeObject serializer = new SerializeObject();
@@ -74,7 +76,7 @@ public class MarkMain {
     serializer.convertToJson(jackpotRules, "JACKPOTRULES", "Rules");
     
     SpinRule spinRule = new SpinRule();
-    SpinesRule spinesRule = new SpinesRule();
+    SpinesRules spinesRule = new SpinesRules();
     spinRule.setAparitionQuantity(3);
     spinRule.setFreeSpin(12);
     spinesRule.setThreeItems(spinRule);
@@ -85,9 +87,13 @@ public class MarkMain {
     spinRule.setFreeSpin(20);
     spinesRule.setFiveItems(spinRule);
     serializer.convertToJson(spinesRule, "SPINESRULE", "Rules");
+    **/
+    Player player = new Player("Pepe","123");
+    Game game = new Game(player, 150);
+    for(int i = 0; i < 20; i++) {
+      game.play();
+      System.out.println();
+    }
     
-    
-    
-
   }
 }
