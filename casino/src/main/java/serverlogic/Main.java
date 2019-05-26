@@ -7,7 +7,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		logger.info("Exceso de tamanio");
-		logger.error("Me pesa mucho la gapin");
+		//logger.error("Me pesa mucho la gapin");
 		//System.out.println(logger.getLevel());
 	}
 
