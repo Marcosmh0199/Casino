@@ -28,6 +28,7 @@ public class Login {
   private JFrame frame;
   private JTextField textField;
   private JPasswordField passwordField;
+  private JButton btnNewButton;
 
   /**
    * Create the application.
@@ -43,14 +44,13 @@ public class Login {
     frame = new JFrame();
     frame.setBackground(new Color(255, 255, 255));
     frame.getContentPane().setBackground(new Color(230, 230, 250));
-    frame.setBounds(100, 100, 811, 535);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setBounds(100, 100, 623, 463);
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     frame.getContentPane().setLayout(null);
-
     JPanel panel = new JPanel();
     panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
     panel.setBackground(new Color(255, 153, 153));
-    panel.setBounds(276, 244, 229, 182);
+    panel.setBounds(204, 222, 229, 182);
     frame.getContentPane().add(panel);
     panel.setLayout(null);
 
@@ -59,7 +59,7 @@ public class Login {
     panel.add(textField);
     textField.setColumns(10);
 
-    JButton btnNewButton = new JButton("Iniciar Seccion");
+    btnNewButton = new JButton("Iniciar Seccion");
     btnNewButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {}
     });
@@ -79,19 +79,33 @@ public class Login {
     panel.add(passwordField);
 
     JLabel lblNewLabel_3 = new JLabel("");
-    lblNewLabel_3.setBounds(289, 33, 200, 200);
+    lblNewLabel_3.setBounds(209, 11, 200, 200);
     frame.getContentPane().add(lblNewLabel_3);
     lblNewLabel_3
         .setIcon(new ImageIcon("C:\\Users\\Luis\\Documents\\repos\\Casino\\casino\\logo.png"));
 
     JLabel lblNewLabel_2 = new JLabel("");
     lblNewLabel_2
-        .setIcon(new ImageIcon("C:\\Users\\Luis\\Documents\\repos\\Casino\\casino\\slot.jpg"));
-    lblNewLabel_2.setBounds(0, 0, 795, 496);
+        .setIcon(new ImageIcon("C:\\Users\\Luis\\Desktop\\sides.png"));
+    lblNewLabel_2.setBounds(0, 0, 607, 424);
     frame.getContentPane().add(lblNewLabel_2);
   }
 
   public JFrame getFrame() {
     return frame;
   }
+  
+  public JButton getLoginButton() {
+    return this.btnNewButton;
+  }
+
+  public String getPlayerName() {
+    return this.textField.getText();
+  }
+
+
+  public String getPasswordField() {
+    return this.passwordField.getText();
+  }
+  
 }

@@ -1,22 +1,41 @@
 package gui;
-
+import java.applet.AudioClip;
 import java.awt.EventQueue;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.xml.transform.Source;
+import client.ClientManagement;
 
-public class iLikeCHicken {
+public class iLikeCHicken implements GameConstants {
+  
+  private  int cont;
+  private Game window;
 
+
+  public iLikeCHicken() {
+    this.cont = 1;
+    selectStart();
+  }
+  
+  private void selectStart() {
+    if (cont ==0) {
+      //this.loadLogin();
+    } else {
+     // this.loadGame();
+    }
+  }
+  
   /**
-   * Launch the application.
+   * Carga el login
    */
+
+
+  
+    
+
   public static void main(String[] args) {
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        try {
-          Login window = new Login();
-          window.getFrame().setVisible(true);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
+    ClientManagement m = new ClientManagement();
   }
 }
