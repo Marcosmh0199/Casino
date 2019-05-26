@@ -1,8 +1,13 @@
 package apl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import serverlogic.*;
 
 
 public class MarkMain {
+  
+  private static final Logger logger = LogManager.getLogger(Main.class);
+  
   public static void main(String[] args) {
     /**
     Item item = new Item(0);
@@ -88,10 +93,6 @@ public class MarkMain {
     spinesRule.setFiveItems(spinRule);
     serializer.convertToJson(spinesRule, "SPINESRULE", "Rules");
     **/
-    Player player = new Player("Pepe","123");
-    for(int i = 0; i < 20; i++) {
-      System.out.println();
-    }
-    
+    logger.info("HOLA Probando");
   }
 }
