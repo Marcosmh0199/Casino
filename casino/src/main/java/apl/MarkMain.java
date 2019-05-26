@@ -89,9 +89,7 @@ public class MarkMain {
     serializer.convertToJson(spinesRule, "SPINESRULE", "Rules");
     **/
     Player player = new Player("Pepe","123");
-    Game game = new Game(player, 150);
     for(int i = 0; i < 20; i++) {
-      game.play();
       System.out.println();
     }
     

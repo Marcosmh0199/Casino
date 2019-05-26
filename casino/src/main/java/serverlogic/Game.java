@@ -1,19 +1,23 @@
 package serverlogic;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.io.File; 
+import java.util.Scanner; 
 
 public class Game {
-  private int bet;
-  private Player player;
   private Board board;
   private BetRules betRules;
   private JackpotRules jackpotRules;
   private SpinesRules spineRules;
   private SerializeObject serializer;
-  private int freeSpins;
-  private int jackpot;
+  ArrayList<Integer> prices = new ArrayList<Integer>();
   
-  public Game(Player player, int bet) {
+  public Game() {
     betRules = new BetRules();
     jackpotRules = new JackpotRules();
     spineRules = new SpinesRules();
@@ -21,18 +25,24 @@ public class Game {
     betRules = (BetRules) serializer.convertFromJson("Rules", "BETRULES", betRules.getClass());
     jackpotRules = (JackpotRules) serializer.convertFromJson("Rules", "JACKPOTRULES", jackpotRules.getClass());
     spineRules = (SpinesRules) serializer.convertFromJson("Rules", "SPINESRULE", spineRules.getClass());
-    this.player = player;
     this.board = new Board();
-    this.jackpot = 10000;
   }
   
-  public void play() {
-    if(freeSpins > 0) {
-      freeSpins--;
-    }else {
-      this.player.setCredit(-bet);
-    }  
+  public ArrayList<ArrayList<String>> generateBoard() {
+    ArrayList<ArrayList<String>> itemNames = new ArrayList<ArrayList<String>>();
     board.generateBoard();
+    ArrayList<ArrayList<Item>> items = board.getBoard();
+    for(int row = 0; row < items.size(); row++) {
+      for(int column = 0; column < items.get(0).size(); column++) {
+        itemNames.get(row).add(items.get(row).get(column).getItemType().name());
+      }
+    }
+    return itemNames;
+  }
+  
+  public ArrayList<Integer> play(int bet) {
+    prices.set(0,0);
+    prices.set(0,0);
     ArrayList<ArrayList<Item>> items = board.getBoard();
     int totalBitCoins = 0;
     Item currentItem = items.get(0).get(0);
@@ -53,28 +63,31 @@ public class Game {
               equals(ItemTypes.GITKRAKEN)) {
             itemQuantity++;
           }else {
-            checkPrice(itemQuantity,currentItem, jackpot, totalBitCoins);
+            checkPrice(itemQuantity,currentItem, totalBitCoins, prices, bet);
             currentItem = items.get(row).get(column);
             itemQuantity = 1;
           }
         }
       }
     }
-    checkPrice(itemQuantity,currentItem, jackpot, totalBitCoins);
+    checkPrice(itemQuantity,currentItem, totalBitCoins, prices, bet);
+    return prices;
   }
   
-  private void checkPrice(int itemQuantity,Item item, int jackpot, int totalBitCoins) {
+  private void checkPrice(int itemQuantity,Item item, int totalBitCoins, 
+      ArrayList<Integer> prices, int bet) {
     int price = 0;
     int freeSpins = 0;
     if(item.getPrice().equals(Price.BETPERCETAGE)) {
       price = checkBet(itemQuantity,bet, item);
+      prices.set(0, prices.get(0)+price);
     }else if(item.getPrice().equals(Price.JACKPOTPERCETAGE)) {
-      price = checkJackpot(itemQuantity, item, jackpot);
+      price = checkJackpot(itemQuantity, item);
+      prices.set(0, prices.get(0)+price);
     }else {
       freeSpins = checkSpin(itemQuantity);
+      prices.set(0, prices.get(1)+freeSpins);
     }
-    this.player.setCredit(player.getCredit()+price);
-    this.freeSpins += freeSpins;
   }
   
   private int checkBet(int itemQuantity, int bet, Item item) {
@@ -92,18 +105,26 @@ public class Game {
     }
   }
   
-  private int checkJackpot(int itemQuantity, Item item, int jackpot) {
+  private int checkJackpot(int itemQuantity, Item item) {
+    int price = 0;
+    int jackpot = getJackpot();
+    if(itemQuantity >= 10 && item.getItemType().equals(ItemTypes.BITCOIN)) {
+      modifyJackpot("0");
+      return jackpot;
+    }
     if(itemQuantity >= 3) {
       System.out.println("---------------Gano jack por ---------------"+item.getItemType().name());
       if(item.getItemType().equals(ItemTypes.LINUX)) {
-        return (int) (jackpot * jackpotRules.getLinuxRule().getPercentage());
+        price = (int) (jackpot * jackpotRules.getLinuxRule().getPercentage());
       }else if(item.getItemType().equals(ItemTypes.MAC)) {
-        return (int) (jackpot * jackpotRules.getMacRule().getPercentage());
+        price = (int) (jackpot * jackpotRules.getMacRule().getPercentage());
       }else if(item.getItemType().equals(ItemTypes.WINDOWS)) {
-        return (int) (jackpot * jackpotRules.getWindowsRule().getPercentage());
+        price = (int) (jackpot * jackpotRules.getWindowsRule().getPercentage());
       } 
     }
-    return 0;
+    jackpot -= price;
+    modifyJackpot(String.valueOf(jackpot));
+    return price;
   }
   
   private int checkSpin(int itemQuantity) {
@@ -118,5 +139,31 @@ public class Game {
       } 
     }
     return 0;
+  }
+  
+  private int getJackpot() {
+    FileReader file;
+    try {
+      file = new FileReader("C:\\Users\\Larry\\JSONFiles\\JACKPOT.txt");
+      Scanner sc = new Scanner(file); 
+      return sc.nextInt();
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    return 0;
+  }
+  
+  void modifyJackpot(String newValue) {
+    PrintWriter writer;
+    try {
+      writer = new PrintWriter("C:\\Users\\Larry\\JSONFiles\\JACKPOT.txt", "UTF-8");
+      writer.println(newValue);
+      writer.close();
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
+
   }
 }
