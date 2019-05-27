@@ -1,28 +1,23 @@
 package client;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.concurrent.ArrayBlockingQueue;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import gui.Game;
 import gui.GameConstants;
 import gui.Login;
-import gui.Proceso;
+import gui.Animator;
+import gui.Won;
 
 public class ClientManagement implements GameConstants {
   private Player player;
   private Game window;
   private Client client;
+  private int betPos;
+  
   public ClientManagement() {
     this.startGame();
   }
@@ -30,7 +25,7 @@ public class ClientManagement implements GameConstants {
    * Prepara los datos para el juego.
    */
   private void startGame() {
-    this.client = new Client("172.26.38.32",60000);
+    this.client = new Client("192.168.43.188",60000);
     Keeper.checkDirectory();
     if(Keeper.convertFromJson() != null) {
       this.player = Keeper.convertFromJson();
@@ -73,64 +68,126 @@ public class ClientManagement implements GameConstants {
     });
   }
   
+  /**
+   * Carga la ventana principal de juego.
+   * @param credit
+   */
   private void loadGame(final int credit) {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         window = new Game();
-        window.setLblJackpot(credit + "");
-        window.setLblBet("1000");
+        window.setLblJackpot(String.valueOf(credit));
+        window.setLblBet("100");
         window.getFrame().setVisible(true);
-        window.btnSpine.addActionListener(new ActionListener() {
-          
-          public void actionPerformed(ActionEvent arg0) {
+        btnSpineActionListener();
+        btnIncreaseBetActionListener();
+        btnDecreaseBetActionListener();
+      }
 
-            
-              animation();
-              ArrayList<Object> j = new ArrayList<Object>();
-              j = client.ask("-p");
-              int jp = (Integer) j.get(0);
-              window.setLblJackpot(jp + window.getLblJackpot()+"");
-              System.out.println(j);
-              ArrayList<ArrayList<String>> st = new ArrayList<ArrayList<String>>();
-              st = (ArrayList<ArrayList<String>>) j.get(2);
-              for (int i = 0; i< st.size(); i++) {
-                for(int x = 0; x < st.get(i).size(); x++) {
-                window.getGameMatrix().get(i).get(x).setIcon(new ImageIcon(SOURCE + "\\"+st.get(i).get(x)+".png"));
-                }
-              }
-
+    });
+  }
+  
+  /**
+   * Asigna action listener al boton girar.
+   */
+  public void btnSpineActionListener() {
+    window.btnSpine.addActionListener(new ActionListener() {
+      
+      public void actionPerformed(ActionEvent arg0) {
+        if (window.getLblJackpot() - BET_AMOUNT[betPos] >= 0) {
+          ArrayList<Object> serverSend = new ArrayList<Object>();
+          serverSend = client.playRequest(PLAY);
+          if (serverSend == null) {
+            System.out.println("no hay jackpot");
+            return;
           }
-        });
-        
-        
-       window.btnDecreaseBet.addActionListener(new ActionListener() {
-        
-        public void actionPerformed(ActionEvent arg0) {
-          
-          window.setLblBet(window.getLblBet()-500 + "");
-          System.out.print(client.conection("-c " + window.getLblBet()));
-    
+          int wonAmount = (Integer) serverSend.get(0);
+          if (wonAmount != 0) {
+            showWinWindow(wonAmount);
+          }
+          window.setLblJackpot(String.valueOf(window.getLblJackpot() - BET_AMOUNT[betPos]));
+          window.setLblJackpot(String.valueOf(wonAmount + window.getLblJackpot()));
+          System.out.println(serverSend);
+
+          ArrayList<ArrayList<String>> board = new ArrayList<ArrayList<String>>();
+          board = (ArrayList<ArrayList<String>>) serverSend.get(2);
+          refreshBoard(board);
         }
-      });
-       
-       window.btnIncreaseBet.addActionListener(new ActionListener() {
-        
-        public void actionPerformed(ActionEvent e) {
-          window.setLblBet(window.getLblBet()+500 + "");
-          client.conection("-c " + window.getLblBet());
-          
-        }
-      });
-        
       }
     });
   }
   
-  public void animation() {
-
+  /**
+   * Asigna el action listener del boton incrementar apuesta
+   */
+  public void btnIncreaseBetActionListener() {
+    window.btnIncreaseBet.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        increaseBet();
+      }
+    });
+  }
+  
+  /**
+   * Asigna action listener al boton decrementar apuesta.
+   */
+  public void btnDecreaseBetActionListener() {
+    window.btnDecreaseBet.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        decreaseBet();
+      }
+    });
+  }
+ 
+  /**
+   * Incrementa la apuesta tanto en el servidor, como en la interfaz.
+   */
+  public void increaseBet() {
+    if (betPos < 5) {
+    this.betPos++;
+    window.setLblBet(String.valueOf(BET_AMOUNT[betPos]));
+    client.conection(CHANGE_BET + BET_AMOUNT[betPos]);
+    }
+  }
+  
+  /**
+   * Decrementa la apuesta tanto en el servidor, como en la interfaz.
+   */
+  public void decreaseBet() {
+    if (betPos > 0) {
+      this.betPos--;
+      window.setLblBet(String.valueOf(BET_AMOUNT[betPos]));
+      client.conection(CHANGE_BET+ BET_AMOUNT[betPos]);
+    }
+  }
+  
+  /**
+   * Realiza la animacion de los iconos y actualiza el tablero.
+   * @param array Arreglo que contiene la board generada por el servidor.
+   */
+  public void refreshBoard(ArrayList<ArrayList<String>> board) {
     for (int column = 0; column < 6; column++) {
-      Thread t = new Proceso(window, column);
+      ArrayList<String> boardColumn = new ArrayList<String>();
+      for (int row = 0; row< 3; row++) {
+        boardColumn.add(board.get(row).get(column));
+      }
+      Thread t = new Animator(window, column, boardColumn);
       t.start();
+    }
+  }
+  
+  /**
+   * Muestra la ventana de gane.
+   * @param amount Monto que gano el jugador.
+   */
+  public void showWinWindow(int amount) {
+    try {
+      Won dialog = new Won();
+      dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+      dialog.setVisible(true);
+      dialog.lblNewLabel.setText(String.valueOf(amount));
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 }

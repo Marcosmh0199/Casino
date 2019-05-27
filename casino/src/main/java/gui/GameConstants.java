@@ -16,6 +16,7 @@ public interface GameConstants {
   public final String JCREATOR = SOURCE + "\\jcreator.png";
   public final String JAVA = SOURCE + "\\java.png";
   public final String [] ICONS = {GITKRAKEN,ECLIPSE,BITCOIN,NETBEANS, WINDOWS,MAC, LINUX,BLUEJ, XCODE,ORACLE, JAVA, JCREATOR};
+  public final int[] BET_AMOUNT = {100, 250, 500, 1000, 5000, 10000};
   public final String COLUMN = SOURCE + "\\column.png";
   public final String BACKGROUND = SOURCE + "\\background.png";
   public final String JACKPOT = SOURCE + "\\jackpot.png";
@@ -23,4 +24,7 @@ public interface GameConstants {
   public final String UP_SIDE = SOURCE + "\\upside.png";
   public final String DOWN_SIDE = SOURCE + "\\downside.png";
   public final String BET = SOURCE + "\\bet.png";
+  
+  public final String CHANGE_BET = "-c ";
+  public final String PLAY = "-p ";
 }

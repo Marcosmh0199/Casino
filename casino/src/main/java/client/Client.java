@@ -63,7 +63,7 @@ public class Client {
     }
   }
   
-  public ArrayList<Object> ask(String outMensaje) {
+  public ArrayList<Object> playRequest(String outMensaje) {
     ArrayList<Object> data = new ArrayList<Object>();
     try {
       System.out.print("Intentando conexion");
