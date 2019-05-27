@@ -17,6 +17,7 @@ import java.awt.Toolkit;
  * @version v19.5.27
  *
  */
+@SuppressWarnings("serial")
 public class FreeSpinesDialog extends JDialog {
 
   private final JPanel contentPanel = new JPanel();

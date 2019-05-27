@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JDialog;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import gui.Game;
 import gui.GameConstants;
 import gui.Login;
@@ -108,6 +106,7 @@ public class ClientManagement implements GameConstants {
   public void btnSpineActionListener() {
     window.btnSpine.addActionListener(new ActionListener() {
 
+      @SuppressWarnings("unchecked")
       public void actionPerformed(ActionEvent arg0) {
         if (window.getLblJackpot() - BET_AMOUNT[betPos] >= 0) {
           ArrayList<Object> serverSend = new ArrayList<Object>();
@@ -249,7 +248,8 @@ public class ClientManagement implements GameConstants {
     dialog.setVisible(true);
   }
 
+  @SuppressWarnings("unused")
   public static void main(String[] args) {
-    ClientManagement m = new ClientManagement();
+    ClientManagement management = new ClientManagement();
   }
 }

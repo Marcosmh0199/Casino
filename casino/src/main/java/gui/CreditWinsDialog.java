@@ -16,6 +16,7 @@ import java.awt.Toolkit;
  * @author Vega-Luis
  * @version v19.5.27
  */
+@SuppressWarnings("serial")
 public class CreditWinsDialog extends JDialog {
   private final JPanel contentPanel = new JPanel();
   public JLabel lblNewLabel;

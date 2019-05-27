@@ -26,6 +26,7 @@ public class Game implements GameConstants {
   private JLabel lblBet = new JLabel("");
   public JButton btnDecreaseBet;
   public JButton btnIncreaseBet;
+  @SuppressWarnings("unused")
   private String source;
 
   /**

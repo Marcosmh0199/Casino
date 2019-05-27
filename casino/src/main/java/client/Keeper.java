@@ -13,24 +13,26 @@ import gui.GameConstants;
 
 /**
  * Clase encargada de guardar la informaciond el los jugadores
+ * 
  * @author Vega-Luis
  * @version v19.5.25
  */
-public abstract class  Keeper implements GameConstants{
+public abstract class Keeper implements GameConstants {
   public static final String NAME = "\\players";
 
   /**
    * Verifica que los directorios existan.
    */
   public static void checkDirectory() {
-    if(!(Files.exists(Paths.get(SOURCE + NAME)))){
+    if (!(Files.exists(Paths.get(SOURCE + NAME)))) {
       File dir = new File(SOURCE + NAME);
       dir.mkdir();
     }
   }
-  
+
   /**
    * Guarda los datos del jugador en un json.
+   * 
    * @param player
    */
   public static void convertToJson(Player player) {
@@ -38,16 +40,17 @@ public abstract class  Keeper implements GameConstants{
     String json = gson.toJson(player);
     FileWriter writer;
     try {
-      writer = new FileWriter(SOURCE + NAME + NAME+".json");
+      writer = new FileWriter(SOURCE + NAME + NAME + ".json");
       writer.write(json);
       writer.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
-  
+
   /**
    * Metodo para cargar un .json y convertirlo a un objeto segun convenga
+   * 
    * @param folder Carpeta donde se ubica el .json
    * @param name nombre del archivo que sera convetido
    * @param cls Clase a la que se adecuara el objeto
@@ -57,7 +60,7 @@ public abstract class  Keeper implements GameConstants{
     Gson gson = new Gson();
     FileReader file;
     try {
-      file = new FileReader(SOURCE + NAME +NAME +".json");
+      file = new FileReader(SOURCE + NAME + NAME + ".json");
       BufferedReader br = new BufferedReader(file);
       Player player = gson.fromJson(br, Player.class);
       return player;

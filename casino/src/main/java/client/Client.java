@@ -6,10 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 
 /**
@@ -17,6 +15,7 @@ import java.util.ArrayList;
  * 
  * @author Luis
  * @version v4.28.19
+ * 
  */
 public class Client {
   private String serverName;
@@ -62,7 +61,14 @@ public class Client {
       return "Excepcion con la IO";
     }
   }
-  
+
+  /**
+   * Modela la conexion para recibir objetos desde el servidor.
+   * 
+   * @param outMensaje Comando que indica la peticion al servidor.
+   * @return El objeto enviado por el servidor.
+   */
+  @SuppressWarnings("unchecked")
   public ArrayList<Object> playRequest(String outMensaje) {
     ArrayList<Object> data = new ArrayList<Object>();
     try {
@@ -76,23 +82,21 @@ public class Client {
 
       InputStream inFromServer = socket.getInputStream();
       DataInputStream in = new DataInputStream(inFromServer);
-      ObjectInputStream ob= new ObjectInputStream(in);
+      ObjectInputStream ob = new ObjectInputStream(in);
       data = new ArrayList<Object>();
       try {
         data = (ArrayList<Object>) ob.readObject();
         System.out.println(data);
       } catch (ClassNotFoundException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
-      /*String serverMensaje = in.readUTF();*/
+
       socket.close();
     } catch (UnknownHostException e) {
-      //return "No es posible encontrar el servidor";
+
     } catch (IOException e) {
-      //return "Excepcion con la IO";
-    
-  }
+
+    }
     return data;
   }
 }

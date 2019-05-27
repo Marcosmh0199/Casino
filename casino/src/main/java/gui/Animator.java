@@ -2,7 +2,6 @@ package gui;
 
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 
 /**
  * Implementa un hilo que le permite hacer la animacion del tablero.

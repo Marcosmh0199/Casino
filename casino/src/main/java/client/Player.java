@@ -1,9 +1,12 @@
 package client;
 
 import java.util.Calendar;
+
 import java.util.Date;
+
 /**
  * Modela la estructura de los jugadores.
+ * 
  * @author Vega-Luis
  * @version v19.5.25
  */
@@ -12,9 +15,10 @@ public class Player {
   private String password;
   private int credits;
   private Date lastLogin;
-  
+
   /**
    * Constructor de objetos del Clase Player.
+   * 
    * @param name Nombre del jugador.
    * @param password Contrasenia del jugador.
    */
@@ -54,6 +58,6 @@ public class Player {
   }
 
   public void setLastLogin() {
-    this.lastLogin = Calendar.getInstance().getTime(); 
+    this.lastLogin = Calendar.getInstance().getTime();
   }
 }
