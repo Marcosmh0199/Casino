@@ -1,30 +1,25 @@
 package gui;
 
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import java.awt.GridBagLayout;
-import javax.swing.JPanel;
-import java.awt.GridBagConstraints;
-import java.awt.FlowLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Point;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import java.awt.CardLayout;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JPasswordField;
+import java.awt.Color;
+import java.awt.Toolkit;
 
+/**
+ * Modela la interface de login.
+ * 
+ * @author Vega-Luis
+ * @version v19.5.27
+ */
 public class Login {
-
   private JFrame frame;
   private JTextField textField;
   private JPasswordField passwordField;
@@ -42,6 +37,7 @@ public class Login {
    */
   private void initialize() {
     frame = new JFrame();
+    frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Luis\\sources\\icon.png"));
     frame.setBackground(new Color(255, 255, 255));
     frame.getContentPane().setBackground(new Color(230, 230, 250));
     frame.setBounds(100, 100, 623, 463);
@@ -81,12 +77,10 @@ public class Login {
     JLabel lblNewLabel_3 = new JLabel("");
     lblNewLabel_3.setBounds(209, 11, 200, 200);
     frame.getContentPane().add(lblNewLabel_3);
-    lblNewLabel_3
-        .setIcon(new ImageIcon("C:\\Users\\Luis\\Documents\\repos\\Casino\\casino\\logo.png"));
+    lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\Luis\\sources\\logo.png"));
 
     JLabel lblNewLabel_2 = new JLabel("");
-    lblNewLabel_2
-        .setIcon(new ImageIcon("C:\\Users\\Luis\\Desktop\\sides.png"));
+    lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\Luis\\sources\\loginbackground.png"));
     lblNewLabel_2.setBounds(0, 0, 607, 424);
     frame.getContentPane().add(lblNewLabel_2);
   }
@@ -94,7 +88,7 @@ public class Login {
   public JFrame getFrame() {
     return frame;
   }
-  
+
   public JButton getLoginButton() {
     return this.btnNewButton;
   }
@@ -104,8 +98,9 @@ public class Login {
   }
 
 
+  @SuppressWarnings("deprecation")
   public String getPasswordField() {
     return this.passwordField.getText();
   }
-  
+
 }

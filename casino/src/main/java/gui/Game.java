@@ -1,27 +1,30 @@
 package gui;
 
-import java.awt.EventQueue;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Color;
-import javax.swing.JTable;
-import java.awt.SystemColor;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Toolkit;
 
+/**
+ * Interface principal de juego.
+ * 
+ * @author Vega-Luis
+ * @version v19.5.27
+ */
 public class Game implements GameConstants {
   private JFrame frame;
   private ArrayList<ArrayList<JLabel>> gameMatrix;
   private JLabel lblJackpot = new JLabel("1.25688897498");
   public JButton btnSpine = new JButton("Spine");
   private JLabel lblBet = new JLabel("");
-  public  JButton btnDecreaseBet;
+  public JButton btnDecreaseBet;
   public JButton btnIncreaseBet;
   private String source;
 
@@ -40,8 +43,9 @@ public class Game implements GameConstants {
    */
   private void initialize() {
     frame = new JFrame();
+    frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Luis\\sources\\icon.png"));
     frame.setBounds(100, 100, 625, 462);
-    frame.setLocationRelativeTo(null); 
+    frame.setLocationRelativeTo(null);
     frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     frame.getContentPane().setLayout(null);
   }
@@ -60,7 +64,7 @@ public class Game implements GameConstants {
       for (int column = 0; column < 6; column++) {
         JLabel label = new JLabel("");
         label.setBounds(xAxis, yAxis, 100, 100);
-        label.setIcon(new ImageIcon(ICONS[(int)(Math.random()*12)]));
+        label.setIcon(new ImageIcon(ICONS[(int) (Math.random() * 12)]));
         panel.add(label);
         this.gameMatrix.get(row).add(label);
         xAxis += 100;
@@ -201,7 +205,7 @@ public class Game implements GameConstants {
   public int getLblBet() {
     return Integer.parseInt(lblBet.getText());
   }
-  
+
   public int getLblJackpot() {
     return Integer.parseInt(lblJackpot.getText());
   }

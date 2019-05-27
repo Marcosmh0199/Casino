@@ -16,6 +16,13 @@ import gui.FreeSpinesDialog;
 import gui.CreditWinsDialog;
 import gui.EmptyJackpotDialog;
 
+/**
+ * Controla la interaccion entre la interfaz y la logica de conecion con el servidor.
+ * 
+ * @author Vega-Luis
+ * @version v19.5.27
+ *
+ */
 public class ClientManagement implements GameConstants {
   private Player player;
   private Game window;
@@ -235,10 +242,14 @@ public class ClientManagement implements GameConstants {
       }
     });
   }
-  
+
   public void showEmpytJackpotDialog() {
-        EmptyJackpotDialog dialog = new EmptyJackpotDialog();
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        dialog.setVisible(true);
-        }
+    EmptyJackpotDialog dialog = new EmptyJackpotDialog();
+    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    dialog.setVisible(true);
+  }
+
+  public static void main(String[] args) {
+    ClientManagement m = new ClientManagement();
+  }
 }
