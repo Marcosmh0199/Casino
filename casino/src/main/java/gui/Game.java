@@ -41,7 +41,8 @@ public class Game implements GameConstants {
   private void initialize() {
     frame = new JFrame();
     frame.setBounds(100, 100, 625, 462);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setLocationRelativeTo(null); 
+    frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     frame.getContentPane().setLayout(null);
   }
 

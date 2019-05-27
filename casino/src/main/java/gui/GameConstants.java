@@ -27,4 +27,5 @@ public interface GameConstants {
   
   public final String CHANGE_BET = "-c ";
   public final String PLAY = "-p ";
+  public final String CLOSE = "-e ";
 }
