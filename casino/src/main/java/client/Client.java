@@ -42,10 +42,8 @@ public class Client {
    */
   public String conection(String outMensaje) {
     try {
-      System.out.print("Intentando conexion");
       Socket socket = new Socket(this.serverName, this.port);
-      System.out.print("se conecto");
-
+      
       OutputStream outToServer = socket.getOutputStream();
       DataOutputStream out = new DataOutputStream(outToServer);
       out.writeUTF(outMensaje);
@@ -72,9 +70,7 @@ public class Client {
   public ArrayList<Object> playRequest(String outMensaje) {
     ArrayList<Object> data = new ArrayList<Object>();
     try {
-      System.out.print("Intentando conexion");
       Socket socket = new Socket(this.serverName, this.port);
-      System.out.print("se conecto");
 
       OutputStream outToServer = socket.getOutputStream();
       DataOutputStream out = new DataOutputStream(outToServer);
@@ -86,7 +82,6 @@ public class Client {
       data = new ArrayList<Object>();
       try {
         data = (ArrayList<Object>) ob.readObject();
-        System.out.println(data);
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
       }

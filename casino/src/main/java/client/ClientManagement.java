@@ -27,8 +27,12 @@ public class ClientManagement implements GameConstants {
   private Client client;
   private int betPos;
   private int spines;
+  private String serverName;
+  private int port;
 
-  public ClientManagement() {
+  public ClientManagement(String serverName, int port) {
+	this.serverName = serverName;
+	this.port = port;
     this.startGame();
   }
 
@@ -36,7 +40,7 @@ public class ClientManagement implements GameConstants {
    * Prepara los datos para el juego.
    */
   private void startGame() {
-    this.client = new Client("192.168.43.188", 60000);
+    this.client = new Client(serverName, port);
     Keeper.checkDirectory();
     if (Keeper.convertFromJson() != null) {
       this.player = Keeper.convertFromJson();
@@ -129,8 +133,7 @@ public class ClientManagement implements GameConstants {
             spines--;
           }
           window.setLblJackpot(String.valueOf(wonAmount + window.getLblJackpot()));
-          System.out.println(serverSend);
-
+          
           ArrayList<ArrayList<String>> board = new ArrayList<ArrayList<String>>();
           board = (ArrayList<ArrayList<String>>) serverSend.get(2);
           refreshBoard(board);
@@ -250,6 +253,8 @@ public class ClientManagement implements GameConstants {
 
   @SuppressWarnings("unused")
   public static void main(String[] args) {
-    ClientManagement management = new ClientManagement();
+	String serverName = args[0];
+	int port = Integer.parseInt(args[1]);
+    ClientManagement management = new ClientManagement(serverName, port);
   }
 }
