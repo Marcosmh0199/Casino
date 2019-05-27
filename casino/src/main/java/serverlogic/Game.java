@@ -237,7 +237,7 @@ public class Game {
   private int getJackpot() throws IOException {
     FileReader file;
     try {
-      file = new FileReader(DIR+"JSONFiles\\JACKPOT.txt");
+      file = new FileReader(DIR+"\\JSONFiles\\JACKPOT.txt");
       Scanner sc = new Scanner(file); 
       jackpot = sc.nextInt();
       return jackpot;
