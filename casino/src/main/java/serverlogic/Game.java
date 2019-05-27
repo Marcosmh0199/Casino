@@ -37,11 +37,6 @@ public class Game {
     this.spineRules = spineRules;
     this.board = new Board();
     setCurrentBet(100);
-    try {
-      jackpot = getJackpot();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
     prices = new ArrayList<Object>();
     setPrices();
   }
@@ -83,6 +78,11 @@ public class Game {
    * @return Array que contiene los premios en efectivo y freeSpins
    */
   public ArrayList<Object> play() {
+    try {
+      jackpot = getJackpot();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     if(jackpot < this.currentBet) {
       return null;
     }
@@ -103,6 +103,9 @@ public class Game {
         compareItem = items.get(row).get(column);
         if(compareItem.getItemType().equals(ItemTypes.BITCOIN)) {
           totalBitCoins++;
+          if(totalBitCoins >= 10) {
+            checkPrice(itemQuantity,compareItem, totalBitCoins, prices);
+          }
           continue;
         }
         if((compareItem.getItemType() == currentItem.getItemType())) {
@@ -119,7 +122,7 @@ public class Game {
         }
       }
       checkPrice(itemQuantity,currentItem, totalBitCoins, prices);
-    }   
+    }
     jackpot -= (Integer)prices.get(0);
     modifyJackpot(String.valueOf(jackpot));
     return prices;
@@ -140,7 +143,7 @@ public class Game {
       price = checkBet(itemQuantity, item);
       prices.set(0, (Integer)prices.get(0)+price);
     }else if(item.getPrice().equals(PriceTypes.JACKPOTPERCETAGE)) {
-      price = checkJackpot(itemQuantity, item);
+      price = checkJackpot(itemQuantity, item, totalBitCoins);
       prices.set(0, (Integer)prices.get(0)+price);
     }else {
       freeSpins = checkSpin(itemQuantity);
@@ -178,9 +181,9 @@ public class Game {
    * @param item Item que se va a comprobar
    * @return cantidad de dinero ganado
    */
-  private int checkJackpot(int itemQuantity, Item item) {
+  private int checkJackpot(int itemQuantity, Item item, int totalBitCoins) {
     int price = 0;
-    if(itemQuantity >= 10 && item.getItemType().equals(ItemTypes.BITCOIN)) {
+    if(totalBitCoins >= 10) {
       logger.info("Gano el Jackpot acumulado con un valor de "+String.valueOf(jackpot));
       modifyJackpot("0");
       return jackpot;
@@ -210,7 +213,6 @@ public class Game {
   private int checkSpin(int itemQuantity) {
     int price = 0;
     if(itemQuantity >= 3) {
-      System.out.println("---------------Gano spin---------------");
       if(itemQuantity == spineRules.getThreeItems().getAparitionQuantity()) {
         price = spineRules.getThreeItems().getFreeSpin();
       }else if(itemQuantity == spineRules.getFourItems().getAparitionQuantity()) {
@@ -222,7 +224,7 @@ public class Game {
           ItemTypes.JAVA.name()+" siendo un total de " +String.valueOf(price);
       logger.info(msg);
     }
-    return 0;
+    return price;
   }
   
   /**

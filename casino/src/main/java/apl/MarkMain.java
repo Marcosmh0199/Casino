@@ -6,7 +6,7 @@ import serverlogic.*;
 
 public class MarkMain {
   
-  private static final Logger logger = LogManager.getLogger(Main.class);
+  //private static final Logger logger = LogManager.getLogger(Main.class);
   
   public static void main(String[] args) {
     /**
@@ -93,6 +93,6 @@ public class MarkMain {
     spinesRule.setFiveItems(spinRule);
     serializer.convertToJson(spinesRule, "SPINESRULE", "Rules");
     **/
-    logger.info("HOLA Probando");
+    //logger.info("HOLA Probando");
   }
 }
