@@ -1,6 +1,4 @@
 package serverlogic;
-
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,6 +9,12 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Clase que contiene la logica de juego
+ * @author Marcos
+ * @version v19.24.05
+ *
+ */
 public class Game {
   private Board board;
   private BetRules betRules;
@@ -20,6 +24,27 @@ public class Game {
   private ArrayList<Object> prices;
   private static final Logger logger = LogManager.getLogger(Game.class);
   private int jackpot;
+  
+  /**
+   * Constructor
+   * @param betRules Reglas del premio por apuesta
+   * @param jackpotRules Reglas del premio por jackpot
+   * @param spineRules Reglas del promio referentes a las freeSpins
+   */
+  public Game(BetRules betRules, JackpotRules jackpotRules, SpinesRules spineRules) {
+    this.betRules = betRules;
+    this.jackpotRules = jackpotRules;
+    this.spineRules = spineRules;
+    this.board = new Board();
+    setCurrentBet(100);
+    try {
+      jackpot = getJackpot();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    prices = new ArrayList<Object>();
+    setPrices();
+  }
   
   public void setCurrentBet(int currentBet) {
     this.currentBet = currentBet;
@@ -35,21 +60,12 @@ public class Game {
     prices.add(new Integer(0));
     prices.add(board.getBoard());
   }
-  public Game(BetRules betRules, JackpotRules jackpotRules, SpinesRules spineRules) {
-    this.betRules = betRules;
-    this.jackpotRules = jackpotRules;
-    this.spineRules = spineRules;
-    this.board = new Board();
-    setCurrentBet(150);
-    try {
-      jackpot = getJackpot();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    prices = new ArrayList<Object>();
-    setPrices();
-  }
   
+  /**
+   * Método para generar el tablero que será usado en el juego, además retorna
+   * un tablero en forma de Strings para uso de la GUI
+   * @return Array de Arrays que contienen los nombres de los items generados
+   */
   public ArrayList<ArrayList<String>> generateBoard() {
     ArrayList<ArrayList<String>> itemNames = new ArrayList<ArrayList<String>>();
     ArrayList<ArrayList<Item>> items = board.getBoard();
@@ -62,7 +78,14 @@ public class Game {
     return itemNames;
   }
   
+  /**
+   * Método para jugar, se encarga de toda la lógica de juego
+   * @return Array que contiene los premios en efectivo y freeSpins
+   */
   public ArrayList<Object> play() {
+    if(jackpot < this.currentBet) {
+      return null;
+    }
     jackpot += currentBet;
     modifyJackpot(String.valueOf(jackpot));
     board.generateBoard();
@@ -72,7 +95,7 @@ public class Game {
     ArrayList<ArrayList<Item>> items = board.getBoard();
     int totalBitCoins = 0;
     Item currentItem = items.get(0).get(0);
-    Item compareItem;
+    Item compareItem = items.get(0).get(0);
     int itemQuantity = 0;
     for(int row = 0; row < items.size(); row++) {
       itemQuantity = 0;
@@ -85,7 +108,7 @@ public class Game {
         if((compareItem.getItemType() == currentItem.getItemType())) {
           itemQuantity++;
         }else {
-          if(currentItem.getPrice().equals(Price.BETPERCETAGE) && compareItem.getItemType().
+          if(currentItem.getPrice().equals(PriceTypes.BETPERCETAGE) && compareItem.getItemType().
               equals(ItemTypes.GITKRAKEN)) {
             itemQuantity++;
           }else {
@@ -95,21 +118,28 @@ public class Game {
           }
         }
       }
-    }
-    checkPrice(itemQuantity,currentItem, totalBitCoins, prices);
+      checkPrice(itemQuantity,currentItem, totalBitCoins, prices);
+    }   
     jackpot -= (Integer)prices.get(0);
     modifyJackpot(String.valueOf(jackpot));
     return prices;
   }
   
+  /**
+   * Método para comprobar la posibilidad de un cliente ganar un premio
+   * @param itemQuantity Cantidad de veces seguidas que apareció el item
+   * @param item Item que se va a comprobar
+   * @param totalBitCoins Total de items tipo BITCOIN que aparecieron en total
+   * @param prices Arrat que almacena los premios
+   */
   private void checkPrice(int itemQuantity,Item item, int totalBitCoins, 
       ArrayList<Object> prices) {
     int price = 0;
     int freeSpins = 0;
-    if(item.getPrice().equals(Price.BETPERCETAGE)) {
+    if(item.getPrice().equals(PriceTypes.BETPERCETAGE)) {
       price = checkBet(itemQuantity, item);
       prices.set(0, (Integer)prices.get(0)+price);
-    }else if(item.getPrice().equals(Price.JACKPOTPERCETAGE)) {
+    }else if(item.getPrice().equals(PriceTypes.JACKPOTPERCETAGE)) {
       price = checkJackpot(itemQuantity, item);
       prices.set(0, (Integer)prices.get(0)+price);
     }else {
@@ -118,6 +148,12 @@ public class Game {
     }
   }
   
+  /**
+   * Método para comprobar el premio por apuesta
+   * @param itemQuantity Cantidad de veces seguidas que salió el item
+   * @param item Item que se va a comprobar
+   * @return cantidad de dinero ganado
+   */
   private int checkBet(int itemQuantity, Item item) {
     int price = 0;
     if(itemQuantity >= 3) {
@@ -135,6 +171,13 @@ public class Game {
     return price;
   }
   
+
+  /**
+   * Método para comprobar el premio por jackpot
+   * @param itemQuantity Cantidad de veces seguidas que salió el item
+   * @param item Item que se va a comprobar
+   * @return cantidad de dinero ganado
+   */
   private int checkJackpot(int itemQuantity, Item item) {
     int price = 0;
     if(itemQuantity >= 10 && item.getItemType().equals(ItemTypes.BITCOIN)) {
@@ -159,6 +202,11 @@ public class Game {
     return price;
   }
   
+  /**
+   * Método para comprobar el premio por freeSpins
+   * @param itemQuantityC antidad de veces seguidas que salió el item
+   * @return cantidade fresSpins ganadas
+   */
   private int checkSpin(int itemQuantity) {
     int price = 0;
     if(itemQuantity >= 3) {
@@ -177,16 +225,18 @@ public class Game {
     return 0;
   }
   
+  /**
+   * Método para cargar el Jackpot en memoria local
+   * @return cantidad del jackpot
+   * @throws IOException En caso de no encontrar el archivo
+   */
   private int getJackpot() throws IOException {
     FileReader file;
     try {
 
       file = new FileReader("C:\\Users\\Larry\\JSONFiles\\JACKPOT.txt");
       Scanner sc = new Scanner(file); 
-      while (sc.hasNextLine()) { 
-          jackpot = sc.nextInt();
-      } 
-      //int jackpot = 100000;
+      jackpot = sc.nextInt();
       return jackpot;
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -194,6 +244,10 @@ public class Game {
     return 0;
   }
   
+  /**
+   * Método para modificar el jackpot en memoria local
+   * @param newValue Nuevo valor del jackpot
+   */
   void modifyJackpot(String newValue) {
     PrintWriter writer;
     try {

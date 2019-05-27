@@ -4,29 +4,40 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import controller.ServerController;
+/**
+ * Clase del servidor
+ * @author Marcos
+ * @version 24.26.05
+ */
 
 public class Server {
   private ServerSocket serverSocket;
   private ServerController controller;
   private Socket socket;
   private static final Logger logger = LogManager.getLogger(Server.class);
-  private String input; 
+  private String input;
   
+  /**
+   * Constructor
+   * @param port Puerto donde se aloja el servidor
+   * @param queueSize Máximo de clientes en espera
+   * @throws IOException En caso de presentar algun problea de entrada/salida
+   */
   public Server(int port, int queueSize) throws IOException {
     serverSocket = new ServerSocket(port, queueSize); 
     controller = new ServerController();
   }
   
+  /**
+   * Método para levantar el servidor y tenerlo a la espera de instrucciones
+   */
   public void executeServer() {
     while(true) {
       try {
@@ -53,6 +64,11 @@ public class Server {
     }
   }
   
+  /**
+   * Método para reconocer un comando y realizar una acción basada el dicho comando
+   * @param inputLine Comando
+   * @return retorna un valor booleano
+   */
   private boolean executeCommand(String inputLine) {
     String command = inputLine.substring(0,2);
     if(command.equals("-p")) { 
@@ -82,7 +98,8 @@ public class Server {
       }
       return true;
     }else {
-      logger.info("El cliente cierra la sesion");
+      logger.info("El cliente cierra la sesion, se vuelve el servidor a valores por defecto");
+      controller.getGame().setCurrentBet(100);
       return false;
     }
   }

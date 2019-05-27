@@ -7,15 +7,18 @@ package serverlogic;
 public class Item{
   
   private ItemTypes itemType;
-  private Price price;
+  private PriceTypes price;
   private int probability;
   
+  /**
+   * Constructor
+   * @param probability número que indica la probabilidad de aparecer del item
+   */
   public Item(int probability){
     setProbability(probability);
   }
   
   public Item() {
-    
   }
   
   public void setItemType(ItemTypes itemType) {
@@ -26,11 +29,11 @@ public class Item{
     return this.itemType;
   }
   
-  public void setPrice(Price price) {
+  public void setPrice(PriceTypes price) {
     this.price = price;
   }
   
-  public Price getPrice() {
+  public PriceTypes getPrice() {
     return this.price;
   }
   

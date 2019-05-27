@@ -6,7 +6,7 @@ package serverlogic;
  * @version 19.5.20
  */
 
-public class SpinRule extends Rule {
+public final class SpinRule extends Rule {
   private int freeSpin;
   
   public SpinRule(){

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Board {
   private ArrayList<ArrayList<Item>> board;
   private ArrayList<Item> itemChoice;
-  SerializeObject serializer;
+  private SerializeObject serializer;
   
   /**
    * Constructor de objetos de clase Board.
