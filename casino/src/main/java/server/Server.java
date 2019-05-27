@@ -48,8 +48,6 @@ public class Server {
           socket = serverSocket.accept();   
           DataInputStream in = new DataInputStream(socket.getInputStream());
           input = in.readUTF();
-          //DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-          //out.writeUTF("Comando aceptado\n");
           logger.info("Comando "+input+" recibido");
           over = executeCommand(input);
         }

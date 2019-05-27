@@ -7,8 +7,8 @@ package serverlogic;
  */
 public abstract class Rule {
   protected int aparitionQuantity;
-  public Rule(){
-    
+  
+  public Rule(){   
   }
   
   public void setAparitionQuantity(int aparitionQuantity) {
