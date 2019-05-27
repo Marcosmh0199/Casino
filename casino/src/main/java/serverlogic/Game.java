@@ -24,6 +24,7 @@ public class Game {
   private ArrayList<Object> prices;
   private static final Logger logger = LogManager.getLogger(Game.class);
   private int jackpot;
+  private final String DIR = System.getProperty("user.home");
   
   /**
    * Constructor
@@ -232,11 +233,11 @@ public class Game {
    * @return cantidad del jackpot
    * @throws IOException En caso de no encontrar el archivo
    */
+  @SuppressWarnings("resource")
   private int getJackpot() throws IOException {
     FileReader file;
     try {
-
-      file = new FileReader("C:\\Users\\Larry\\JSONFiles\\JACKPOT.txt");
+      file = new FileReader(DIR+"JSONFiles\\JACKPOT.txt");
       Scanner sc = new Scanner(file); 
       jackpot = sc.nextInt();
       return jackpot;
@@ -253,7 +254,7 @@ public class Game {
   void modifyJackpot(String newValue) {
     PrintWriter writer;
     try {
-      writer = new PrintWriter("C:\\Users\\Larry\\JSONFiles\\JACKPOT.txt", "UTF-8");
+      writer = new PrintWriter(DIR+"\\JSONFiles\\JACKPOT.txt", "UTF-8");
       writer.println(newValue);
       writer.close();
     } catch (FileNotFoundException e) {
