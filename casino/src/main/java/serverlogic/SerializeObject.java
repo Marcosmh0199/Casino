@@ -10,13 +10,13 @@ import java.nio.file.Paths;
 import com.google.gson.Gson;
 
 /**
- * Clase para crear cualquier objeto a .JSON y viceversa
+ * Clase para convertir cualquier objeto a .JSON y viceversa
  * @author Marcos
  * @version v19.20.05
  *
  */
 public class SerializeObject {
-  final String DIR = System.getProperty("user.home");
+  final private String DIR = System.getProperty("user.home");
 
   /**
    * Constructor 

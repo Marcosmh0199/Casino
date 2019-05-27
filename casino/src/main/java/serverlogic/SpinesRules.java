@@ -1,5 +1,11 @@
 package serverlogic;
 
+/**
+ * Clase que contiene las reglas de spins
+ * @author Marcos
+ * @version v19.20.05
+ *
+ */
 public class SpinesRules {
   private SpinRule threeItems;
   private SpinRule fourItems;

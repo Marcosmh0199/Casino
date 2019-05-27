@@ -24,7 +24,7 @@ public class ServerController {
     return this.game;
   }
   
-  void getRules() {
+  private void getRules() {
     betRules = new BetRules();
     jackpotRules = new JackpotRules();
     spinesRules = new SpinesRules();
